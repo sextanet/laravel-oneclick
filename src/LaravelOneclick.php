@@ -2,6 +2,7 @@
 
 namespace SextaNet\LaravelOneclick;
 
+use Illuminate\View\View;
 use SextaNet\LaravelOneclick\Exceptions\MissingKeysInProduction;
 use Transbank\Webpay\Oneclick\MallInscription;
 
@@ -23,7 +24,7 @@ class LaravelOneclick {
         session()->flash('response_url', $response_url);
     }
 
-    public static function registerCard(string $username, string $email)
+    public static function registerCard(string $username, string $email): View
     {
         $response = (new MallInscription)
             ->start($username, $email, self::getResponseUrl());

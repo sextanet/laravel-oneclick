@@ -3,6 +3,7 @@
 namespace SextaNet\LaravelOneclick;
 
 use Illuminate\Support\Facades\Blade;
+use Illuminate\Support\Facades\Route;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
 use SextaNet\LaravelOneclick\Commands\LaravelOneclickCommand;
@@ -39,5 +40,12 @@ class LaravelOneclickServiceProvider extends PackageServiceProvider
     public function packageRegistered()
     {
         $this->registerBladeComponents();
+
+        Route::prefix(config('oneclick.prefix'))
+            ->name(config('oneclick.name'))
+            ->middleware('web')
+            ->group(function () {
+                $this->registerRoutes('web.php');
+            });
     }
 }

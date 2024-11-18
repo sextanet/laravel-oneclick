@@ -3,5 +3,5 @@
 use Illuminate\Support\Facades\Route;
 
 Route::get('response', function () {
-    // 
-})->name('response');
+    return view('oneclick::responses.default');
+})->name('oneclick.response');
