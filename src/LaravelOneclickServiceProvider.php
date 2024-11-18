@@ -21,7 +21,9 @@ class LaravelOneclickServiceProvider extends PackageServiceProvider
             ->name('laravel-oneclick')
             ->hasConfigFile()
             ->hasViews()
-            ->hasMigration('create_laravel_oneclick_table')
+            ->hasMigrations([
+                'create_oneclick_cards_table',
+            ])
             ->hasCommand(LaravelOneclickCommand::class);
     }
 
