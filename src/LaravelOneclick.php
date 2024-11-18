@@ -17,12 +17,17 @@ class LaravelOneclick
 
     protected static function getResponseUrl(): string
     {
-        return session()->get('response_url') ?? route('oneclick.response');
+        return route('oneclick.response_url');
     }
 
-    public static function setResponseUrl(string $response_url): void
+    protected function getApprovedUrl(): string
     {
-        session()->flash('response_url', $response_url);
+        return session()->get('response_url') ?? route('oneclick.approved');
+    }
+
+    public static function setApprovedUrl(string $approved_url): void
+    {
+        session()->flash('approved_url', $approved_url);
     }
 
     public static function registerCard(string $username, string $email): View
