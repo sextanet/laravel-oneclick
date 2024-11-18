@@ -36,7 +36,7 @@ trait HasOneclick
     {
         return $this->oneclick_cards()->updateOrCreate([
             'tbk_user' => $tbk_user,
-        ],[
+        ], [
             'tbk_user' => $tbk_user,
             'authorization_code' => $authorization_code,
             'card_type' => $card_type,
