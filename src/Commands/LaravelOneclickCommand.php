@@ -1,12 +1,12 @@
 <?php
 
-namespace VendorName\Skeleton\Commands;
+namespace SextaNet\LaravelOneclick\Commands;
 
 use Illuminate\Console\Command;
 
-class SkeletonCommand extends Command
+class LaravelOneclickCommand extends Command
 {
-    public $signature = 'skeleton';
+    public $signature = 'laravel-oneclick';
 
     public $description = 'My command';
 
