@@ -50,12 +50,12 @@ class LaravelOneclick
         if (self::inscriptionIsApproved($response)) {
             $model = get_oneclickable_session();
 
-            $model->oneclick_cards()->updateOrCreate([
-                'tbk_user' => $response->getTbkUser(),
-                'authorization_code' => $response->getAuthorizationCode(),
-                'card_type' => $response->getCardType(),
-                'card_number' => $response->getCardNumber(),
-            ]);
+            $model->storeCardOneclick(
+                $response->getTbkUser(),
+                $response->getAuthorizationCode(),
+                $response->getCardType(),
+                $response->getCardNumber()
+            );
 
             return dd('approved', $response->getTbkUser());
         }
