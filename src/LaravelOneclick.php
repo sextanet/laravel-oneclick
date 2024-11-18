@@ -28,6 +28,9 @@ class LaravelOneclick {
         $response = (new MallInscription)
             ->start($username, $email, self::getResponseUrl());
 
-        dd($response);
+        return view('oneclick::helpers.redirect', [
+            'token' => $response->getToken(),
+            'url' => $response->getUrlWebpay(),
+        ]);
     }
 }
