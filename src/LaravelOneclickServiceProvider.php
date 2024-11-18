@@ -4,9 +4,9 @@ namespace SextaNet\LaravelOneclick;
 
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\Route;
+use SextaNet\LaravelOneclick\Commands\LaravelOneclickCommand;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
-use SextaNet\LaravelOneclick\Commands\LaravelOneclickCommand;
 
 class LaravelOneclickServiceProvider extends PackageServiceProvider
 {

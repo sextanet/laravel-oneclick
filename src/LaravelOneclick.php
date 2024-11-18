@@ -6,7 +6,8 @@ use Illuminate\View\View;
 use SextaNet\LaravelOneclick\Exceptions\MissingKeysInProduction;
 use Transbank\Webpay\Oneclick\MallInscription;
 
-class LaravelOneclick {
+class LaravelOneclick
+{
     protected static function checkConfig(): void
     {
         if (! config('oneclick.commerce_code') || ! config('oneclick.secret')) {
