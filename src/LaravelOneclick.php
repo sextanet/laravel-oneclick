@@ -42,12 +42,33 @@ class LaravelOneclick
         ]);
     }
 
+    public static function getAndForgetOneclickableSession()
+    {
+        $session = session()->get('oneclickable');
+
+        session()->forget('oneclickable');
+
+        return $session;
+    }
+
     public static function getResultRegisterCard()
     {
+        $session = static::getAndForgetOneclickableSession();
+
         $response = (new MallInscription)
             ->finish(request('TBK_TOKEN'));
 
         if (self::inscriptionIsApproved($response)) {
+            $model = new $session['model'];
+            $id = $session['id'];
+
+            $model::find($id)->oneclick_cards()->createOrUpdate([
+                'tbk_user' => $response->getTbkUser(),
+                'authorization_code' => $response->getAuthorizationCode(),
+                'card_type' => $response->getCardType(),
+                'card_number' => $response->getCardNumber(),
+            ]);
+
             return dd('approved', $response->getTbkUser());
         }
 
