@@ -47,13 +47,22 @@ class LaravelOneclick
         $response = (new MallInscription)
             ->finish(request('TBK_TOKEN'));
 
-        if ($approved_token = self::inscriptionIsApproved($response)) {
-            return $approved_token;
+        if (self::inscriptionIsApproved($response)) {
+            return dd($response->getTbkUser());
+        }
+
+        if (self::inscriptionIsCancelled($response)) {
+            return dd($response);
         }
     }
 
-    protected static function inscriptionIsApproved(InscriptionFinishResponse $response)
+    protected static function inscriptionIsApproved(InscriptionFinishResponse $response): bool
     {
-        return $response->getTbkUser();
+        return $response->getResponseCode() === 0;
+    }
+
+    protected static function inscriptionIsCancelled(InscriptionFinishResponse $response): bool
+    {
+        return $response->getResponseCode() === -96;
     }
 }
