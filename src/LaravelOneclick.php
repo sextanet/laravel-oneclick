@@ -24,6 +24,7 @@ class LaravelOneclick
             config('oneclick.secret_key')
         );
     }
+
     protected static function checkConfig(): void
     {
         if (! config('oneclick.commerce_code') || ! config('oneclick.secret')) {
