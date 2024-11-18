@@ -48,17 +48,26 @@ class LaravelOneclick
             ->finish(request('TBK_TOKEN'));
 
         if (self::inscriptionIsApproved($response)) {
-            return dd($response->getTbkUser());
+            return dd('approved', $response->getTbkUser());
+        }
+
+        if (self::inscriptionIsRejected($response)) {
+            return dd('rejected', $response);
         }
 
         if (self::inscriptionIsCancelled($response)) {
-            return dd($response);
+            return dd('cancelled', $response);
         }
     }
 
     protected static function inscriptionIsApproved(InscriptionFinishResponse $response): bool
     {
         return $response->getResponseCode() === 0;
+    }
+
+    protected static function inscriptionIsRejected(InscriptionFinishResponse $response): bool
+    {
+        return $response->getResponseCode() === -1;
     }
 
     protected static function inscriptionIsCancelled(InscriptionFinishResponse $response): bool
