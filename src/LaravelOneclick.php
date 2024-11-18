@@ -62,7 +62,7 @@ class LaravelOneclick
             $model = new $session['model'];
             $id = $session['id'];
 
-            $model::find($id)->oneclick_cards()->createOrUpdate([
+            $model::find($id)->oneclick_cards()->updateOrCreate([
                 'tbk_user' => $response->getTbkUser(),
                 'authorization_code' => $response->getAuthorizationCode(),
                 'card_type' => $response->getCardType(),
