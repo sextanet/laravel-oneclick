@@ -2,6 +2,4 @@
 
 namespace SextaNet\LaravelOneclick\Models;
 
-class OneclickCard extends Model
-{
-}
+class OneclickCard extends Model {}
