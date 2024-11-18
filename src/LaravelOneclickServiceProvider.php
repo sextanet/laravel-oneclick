@@ -2,9 +2,9 @@
 
 namespace SextaNet\LaravelOneclick;
 
+use SextaNet\LaravelOneclick\Commands\LaravelOneclickCommand;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
-use SextaNet\LaravelOneclick\Commands\LaravelOneclickCommand;
 
 class LaravelOneclickServiceProvider extends PackageServiceProvider
 {
