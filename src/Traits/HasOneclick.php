@@ -25,17 +25,9 @@ trait HasOneclick
         return $this->morphMany(OneclickCard::class, 'oneclickable');
     }
 
-    protected function putOneclickableSession(): void
-    {
-        session()->put('oneclickable', [
-            'model' => self::class,
-            'id' => $this->id,
-        ]);
-    }
-
     public function registerCardOneclick()
     {
-        $this->putOneclickableSession();
+        put_oneclickable_session($this);
 
         return LaravelOneclick::registerCard($this->getUsernameOneclick(), $this->getEmailOneclick());
     }
