@@ -1,7 +1,9 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use SextaNet\LaravelOneclick\Facades\LaravelOneclick;
+use Transbank\Webpay\Oneclick\MallInscription;
 
 Route::get('response', function () {
-    return view('oneclick::responses.default');
+    return LaravelOneclick::getResultRegisterCard();
 })->name('response_url');

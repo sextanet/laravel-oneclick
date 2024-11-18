@@ -5,6 +5,7 @@ namespace SextaNet\LaravelOneclick;
 use Illuminate\View\View;
 use SextaNet\LaravelOneclick\Exceptions\MissingKeysInProduction;
 use Transbank\Webpay\Oneclick\MallInscription;
+use Transbank\Webpay\Oneclick\Responses\InscriptionFinishResponse;
 
 class LaravelOneclick
 {
@@ -39,5 +40,20 @@ class LaravelOneclick
             'token' => $response->getToken(),
             'url' => $response->getUrlWebpay(),
         ]);
+    }
+
+    public static function getResultRegisterCard()
+    {
+        $response = (new MallInscription())
+            ->finish(request('TBK_TOKEN'));
+
+        if ($approved_token = self::inscriptionIsApproved($response)) {
+            return $approved_token;
+        }
+    }
+    
+    protected static function inscriptionIsApproved(InscriptionFinishResponse $response)
+    {
+        return $response->getTbkUser();
     }
 }
