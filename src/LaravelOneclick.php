@@ -44,14 +44,14 @@ class LaravelOneclick
 
     public static function getResultRegisterCard()
     {
-        $response = (new MallInscription())
+        $response = (new MallInscription)
             ->finish(request('TBK_TOKEN'));
 
         if ($approved_token = self::inscriptionIsApproved($response)) {
             return $approved_token;
         }
     }
-    
+
     protected static function inscriptionIsApproved(InscriptionFinishResponse $response)
     {
         return $response->getTbkUser();
