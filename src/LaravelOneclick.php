@@ -9,6 +9,21 @@ use Transbank\Webpay\Oneclick\Responses\InscriptionFinishResponse;
 
 class LaravelOneclick
 {
+    public static function instance()
+    {
+        $instance = new MallInscription;
+
+        if (! config('oneclick.in_production')) {
+            return $instance;
+        }
+
+        self::checkConfig();
+
+        return $instance->configureForProduction(
+            config('oneclick.commerce_code'),
+            config('oneclick.secret_key')
+        );
+    }
     protected static function checkConfig(): void
     {
         if (! config('oneclick.commerce_code') || ! config('oneclick.secret')) {
@@ -33,7 +48,7 @@ class LaravelOneclick
 
     public static function registerCard(string $username, string $email): View
     {
-        $response = (new MallInscription)
+        $response = self::instance()
             ->start($username, $email, self::getResponseUrl());
 
         return view('oneclick::helpers.redirect', [
@@ -44,7 +59,7 @@ class LaravelOneclick
 
     public static function getResultRegisterCard()
     {
-        $response = (new MallInscription)
+        $response = self::instance()
             ->finish(request('TBK_TOKEN'));
 
         if (self::inscriptionIsApproved($response)) {
