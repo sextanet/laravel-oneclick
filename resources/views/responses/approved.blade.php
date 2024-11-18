@@ -3,12 +3,12 @@
 @section('title', 'Default response')
 
 @section('content')
-<div>This is the <span class="approved">default</span> response endpoint</div>
+<div>This is the <span class="approved">approved</span> response endpoint</div>
 
-<div>Implement your custom logic by overriding the method</div>
+<div>Implement your custom logic by overriding</div>
 
-<pre class="yourModel" data-comment="YourModel.php">
-Code...
+<pre data-comment="YourController">
+LaravelOneclick::setApprovedUrl(route('your.route'));
 </pre>
 
 <div>

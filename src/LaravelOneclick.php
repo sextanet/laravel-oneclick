@@ -73,7 +73,11 @@ class LaravelOneclick
                 $response->getCardNumber()
             );
 
-            return dd('approved', $response->getTbkUser());
+            // return dd('approved', $response->getTbkUser());
+
+            return session()->get('approved_url')
+                ? redirect(session()->get('approved_url'))
+                : view('oneclick::responses.approved');
         }
 
         if (self::inscriptionIsRejected($response)) {
