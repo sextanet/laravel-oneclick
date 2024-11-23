@@ -38,6 +38,7 @@ trait HasOneclick
             'tbk_user' => $tbk_user,
         ], [
             'tbk_user' => $tbk_user,
+            'username' => $this->getUsernameOneclick(),
             'authorization_code' => $authorization_code,
             'card_type' => $card_type,
             'card_number' => $card_number,

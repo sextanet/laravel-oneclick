@@ -3,9 +3,13 @@
 namespace SextaNet\LaravelOneclick;
 
 use Illuminate\View\View;
+use SextaNet\LaravelOneclick\Exceptions\CommerceCodeRequired;
 use SextaNet\LaravelOneclick\Exceptions\MissingKeysInProduction;
+use Transbank\Webpay\Oneclick\Exceptions\MallTransactionAuthorizeException;
 use Transbank\Webpay\Oneclick\MallInscription;
+use Transbank\Webpay\Oneclick\MallTransaction;
 use Transbank\Webpay\Oneclick\Responses\InscriptionFinishResponse;
+use Transbank\Webpay\Oneclick\Responses\MallTransactionAuthorizeResponse;
 
 class LaravelOneclick
 {
@@ -102,5 +106,31 @@ class LaravelOneclick
     protected static function inscriptionIsCancelled(InscriptionFinishResponse $response): bool
     {
         return $response->getResponseCode() === -96;
+    }
+
+    public static function transactionInstance(): MallTransaction
+    {
+        $instance = new MallTransaction();
+
+        return $instance;
+    }
+
+    public static function pay(string $username, string $tbk_user, string $parent_buy_order, array $details): MallTransactionAuthorizeResponse
+    {
+        try {
+            $response = self::transactionInstance()
+                ->authorize(
+                    $username,
+                    $tbk_user,
+                    $parent_buy_order,
+                    $details
+                );
+            
+            return $response;
+        } catch (MallTransactionAuthorizeException $e) {
+            throw new CommerceCodeRequired($e->getMessage());
+        } catch (\Exception $e) {
+            throw $e;
+        }
     }
 }
