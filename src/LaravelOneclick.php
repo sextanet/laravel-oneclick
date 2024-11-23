@@ -110,7 +110,7 @@ class LaravelOneclick
 
     public static function transactionInstance(): MallTransaction
     {
-        $instance = new MallTransaction();
+        $instance = new MallTransaction;
 
         return $instance;
     }
@@ -125,7 +125,7 @@ class LaravelOneclick
                     $parent_buy_order,
                     $details
                 );
-            
+
             return $response;
         } catch (MallTransactionAuthorizeException $e) {
             throw new CommerceCodeRequired($e->getMessage());

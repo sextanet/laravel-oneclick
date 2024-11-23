@@ -9,7 +9,7 @@ class CommerceCodeRequired extends Exception
     public function __construct($message)
     {
         $this->message = str()->of($message)->remove([
-            'API Response:', '- An error has happened on the request'
+            'API Response:', '- An error has happened on the request',
         ]);
     }
 }
