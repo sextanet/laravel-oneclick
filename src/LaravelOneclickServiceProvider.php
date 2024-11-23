@@ -2,6 +2,8 @@
 
 namespace SextaNet\LaravelOneclick;
 
+use Illuminate\Support\Facades\Blade;
+use Illuminate\Support\Facades\Route;
 use SextaNet\LaravelOneclick\Commands\LaravelOneclickCommand;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
@@ -19,7 +21,33 @@ class LaravelOneclickServiceProvider extends PackageServiceProvider
             ->name('laravel-oneclick')
             ->hasConfigFile()
             ->hasViews()
-            ->hasMigration('create_laravel_oneclick_table')
+            ->hasMigrations([
+                'create_oneclick_cards_table',
+            ])
             ->hasCommand(LaravelOneclickCommand::class);
+    }
+
+    protected function registerRoutes(...$files): void
+    {
+        foreach ($files as $file) {
+            $this->loadRoutesFrom(__DIR__."/routes/{$file}");
+        }
+    }
+
+    protected function registerBladeComponents()
+    {
+        Blade::component('oneclick::partials.debug', 'oneclick-debug');
+    }
+
+    public function packageRegistered()
+    {
+        $this->registerBladeComponents();
+
+        Route::prefix(config('oneclick.prefix'))
+            ->name(config('oneclick.name'))
+            ->middleware('web')
+            ->group(function () {
+                $this->registerRoutes('web.php');
+            });
     }
 }
