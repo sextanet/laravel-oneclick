@@ -2,12 +2,12 @@
 
 namespace SextaNet\LaravelOneclick\Models;
 
-use Illuminate\Database\Eloquent\Concerns\HasUuids;
+use Illuminate\Database\Eloquent\Concerns\HasUlids;
 use SextaNet\LaravelOneclick\Facades\LaravelOneclick;
 
 class OneclickCard extends Model
 {
-    use HasUuids;
+    use HasUlids;
 
     public function getLastDigitsAttribute(?string $replace_by = '')
     {
