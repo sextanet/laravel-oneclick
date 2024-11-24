@@ -32,11 +32,11 @@ if (! function_exists('get_oneclick_user_session')) {
 }
 
 if (! function_exists('get_success_transactions_count')) {
-    function get_success_transactions_count($response): int
+    function get_success_transactions_count(array $details): int
     {
         return count(
             array_filter(
-                $response->details,
+                $details,
                 fn ($detail) => $detail->status === 'AUTHORIZED'
             )
         );
@@ -44,11 +44,11 @@ if (! function_exists('get_success_transactions_count')) {
 }
 
 if (! function_exists('get_failed_transactions_count')) {
-    function get_failed_transactions_count($response): int
+    function get_failed_transactions_count(array $details): int
     {
         return count(
             array_filter(
-                $response->details,
+                $details,
                 fn ($detail) => $detail->status !== 'AUTHORIZED'
             )
         );
@@ -56,9 +56,9 @@ if (! function_exists('get_failed_transactions_count')) {
 }
 
 if (! function_exists('get_total_transactions_count')) {
-    function get_total_transactions_count($response): int
+    function get_total_transactions_count(array $details): int
     {
-        return count($response->details);
+        return count($details);
     }
 }
 
@@ -84,9 +84,9 @@ if (! function_exists('format_transaction_response')) {
             'expiration_at' => get_nullable_laravel_date($response->expirationDate),
             'transaction_at' => get_nullable_laravel_date($response->transactionDate),
             'details' => $response->details,
-            'success_transactions_count' => get_success_transactions_count($response),
-            'failed_transactions_count' => get_failed_transactions_count($response),
-            'total_transactions_count' => get_total_transactions_count($response),
+            'success_transactions_count' => get_success_transactions_count($response->details),
+            'failed_transactions_count' => get_failed_transactions_count($response->details),
+            'total_transactions_count' => get_total_transactions_count($response->details),
         ];
     }
 }
