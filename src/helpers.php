@@ -97,6 +97,15 @@ if (! function_exists('get_failed_transactions_amount')) {
     }
 }
 
+if (! function_exists('get_status_response')) {
+    function get_status_response(array $detail): string
+    {
+        return get_success_transactions_count($detail) === get_total_transactions_count($detail)
+            ? 'success'
+            : 'failed';
+    }
+}
+
 if (! function_exists('format_transaction_response')) {
     function format_transaction_response($response): array
     {
@@ -115,6 +124,7 @@ if (! function_exists('format_transaction_response')) {
             'total_transactions_count' => get_total_transactions_count($response->details),
             'success_transactions_amount' => get_success_transactions_amount($response->details),
             'failed_transactions_amount' => get_failed_transactions_amount($response->details),
+            'status' => get_status_response($response->details),
         ];
     }
 }
