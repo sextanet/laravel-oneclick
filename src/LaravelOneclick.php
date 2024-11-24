@@ -53,6 +53,8 @@ class LaravelOneclick
 
     public static function registerCard(string $username, string $email): View
     {
+        put_oneclick_user_session($username);
+
         $response = self::instance()
             ->start($username, $email, self::getResponseUrl());
 
@@ -71,6 +73,7 @@ class LaravelOneclick
             $model = get_oneclickable_session();
 
             $model->storeCardOneclick(
+                get_oneclick_user_session(),
                 $response->getTbkUser(),
                 $response->getAuthorizationCode(),
                 $response->getCardType(),
