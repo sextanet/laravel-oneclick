@@ -2,6 +2,4 @@
 
 namespace SextaNet\LaravelOneclick\Models;
 
-class OneclickTransaction extends Model
-{
-}
+class OneclickTransaction extends Model {}
