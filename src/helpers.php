@@ -54,6 +54,13 @@ function get_total_transactions_count($response): int
     return count($response->details);
 }
 
+function get_nullable_laravel_date(?string $original_date = null): ?Carbon
+{
+    return $original_date
+        ? Carbon::parse($original_date)
+        : null;
+}
+
 function format_transaction_response($response): array
 {
     return [
@@ -63,8 +70,8 @@ function format_transaction_response($response): array
         'expiration_date' => $response->expirationDate,
         'accounting_date' => $response->accountingDate,
         'transaction_date' => $response->transactionDate,
-        'expiration_at' => $response->expirationDate ? Carbon::parse($response->expirationDate) : null,
-        'transaction_at' => $response->transactionDate ? Carbon::parse($response->transactionDate) : null,
+        'expiration_at' => get_nullable_laravel_date($response->expirationDate),
+        'transaction_at' => get_nullable_laravel_date($response->transactionDate),
         'details' => $response->details,
         'success_transactions_count' => get_success_transactions_count($response),
         'failed_transactions_count' => get_failed_transactions_count($response),
