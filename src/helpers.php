@@ -71,6 +71,32 @@ if (! function_exists('get_nullable_laravel_date')) {
     }
 }
 
+if (! function_exists('get_success_transactions_amount')) {
+    function get_success_transactions_amount(array $detail): int
+    {
+        return array_reduce(
+            $detail,
+            fn ($carry, $item) => $item->status === 'AUTHORIZED'
+                ? $carry + $item->amount
+                : $carry,
+            0
+        );
+    }
+}
+
+if (! function_exists('get_failed_transactions_amount')) {
+    function get_failed_transactions_amount(array $detail): int
+    {
+        return array_reduce(
+            $detail,
+            fn ($carry, $item) => $item->status !== 'AUTHORIZED'
+                ? $carry + $item->amount
+                : $carry,
+            0
+        );
+    }
+}
+
 if (! function_exists('format_transaction_response')) {
     function format_transaction_response($response): array
     {
@@ -87,6 +113,8 @@ if (! function_exists('format_transaction_response')) {
             'success_transactions_count' => get_success_transactions_count($response->details),
             'failed_transactions_count' => get_failed_transactions_count($response->details),
             'total_transactions_count' => get_total_transactions_count($response->details),
+            'success_transactions_amount' => get_success_transactions_amount($response->details),
+            'failed_transactions_amount' => get_failed_transactions_amount($response->details),
         ];
     }
 }

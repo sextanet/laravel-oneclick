@@ -21,6 +21,8 @@ return new class extends Migration
             $table->unsignedBigInteger('success_transactions_count')->default(0);
             $table->unsignedBigInteger('failed_transactions_count')->default(0);
             $table->unsignedBigInteger('total_transactions_count')->default(0);
+            $table->unsignedBigInteger('success_transactions_amount')->default(0);
+            $table->unsignedBigInteger('failed_transactions_amount')->default(0);
             $table->json('details');
             $table->softDeletes();
             $table->timestamps();
