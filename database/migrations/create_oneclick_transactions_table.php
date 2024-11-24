@@ -18,6 +18,9 @@ return new class extends Migration
             $table->string('transaction_date')->nullable();
             $table->datetime('expiration_at')->nullable();
             $table->datetime('transaction_at')->nullable();
+            $table->unsignedBigInteger('success_transactions_count')->default(0);
+            $table->unsignedBigInteger('failed_transactions_count')->default(0);
+            $table->unsignedBigInteger('total_transactions_count')->default(0);
             $table->json('details');
             $table->softDeletes();
             $table->timestamps();
