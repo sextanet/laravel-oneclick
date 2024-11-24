@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Carbon;
 
 function put_oneclickable_session(Model $model): void
 {
