@@ -9,7 +9,7 @@ return new class extends Migration
     public function up()
     {
         Schema::create('oneclick_cards', function (Blueprint $table) {
-            $table->uuid('id');
+            $table->ulid('id');
             $table->morphs('oneclickable');
             $table->string('username');
             $table->string('tbk_user')->unique();
