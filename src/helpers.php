@@ -2,6 +2,7 @@
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Carbon;
+use SextaNet\LaravelOneclick\Enums\ResponseStatus;
 
 if (! function_exists('put_oneclickable_session')) {
     function put_oneclickable_session(Model $model): void
@@ -101,8 +102,8 @@ if (! function_exists('get_status_response')) {
     function get_status_response(array $detail): string
     {
         return get_success_transactions_count($detail) === get_total_transactions_count($detail)
-            ? 'success'
-            : 'failed';
+            ? ResponseStatus::SUCCESS
+            : ResponseStatus::FAILED;
     }
 }
 
