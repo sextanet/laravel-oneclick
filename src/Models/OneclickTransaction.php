@@ -2,7 +2,8 @@
 
 namespace SextaNet\LaravelOneclick\Models;
 
-class OneclickTransaction extends Model {
+class OneclickTransaction extends Model
+{
     protected $casts = [
         'details' => 'array',
     ];
@@ -11,4 +12,4 @@ class OneclickTransaction extends Model {
         'expiration_at',
         'transaction_at',
     ];
-};
+}
