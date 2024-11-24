@@ -11,11 +11,13 @@ return new class extends Migration
         Schema::create('oneclick_transactions', function (Blueprint $table) {
             $table->id();
             $table->string('buy_order');
-            $table->string('session_id');
+            $table->string('session_id')->nullable();
             $table->string('card_number');
-            $table->string('expiration_date');
-            $table->string('accounting_date');
-            $table->string('transaction_date');
+            $table->string('expiration_date')->nullable();
+            $table->string('accounting_date')->nullable();
+            $table->string('transaction_date')->nullable();
+            $table->datetime('expiration_at')->nullable();
+            $table->datetime('transaction_at')->nullable();
             $table->json('details');
             $table->softDeletes();
             $table->timestamps();
