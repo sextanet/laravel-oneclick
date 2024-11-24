@@ -8,7 +8,7 @@ use SextaNet\LaravelOneclick\Facades\LaravelOneclick;
 class OneclickCard extends Model
 {
     use HasUuids;
-    
+
     public function getLastDigitsAttribute(?string $replace_by = '')
     {
         return str()->of($this->card_number)->replace('X', $replace_by);
