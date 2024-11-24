@@ -11,7 +11,7 @@ return new class extends Migration
         Schema::create('oneclick_cards', function (Blueprint $table) {
             $table->uuid('id');
             $table->morphs('oneclickable');
-            $table->string('username')->unique();
+            $table->string('username');
             $table->string('tbk_user')->unique();
             $table->string('authorization_code');
             $table->string('card_type');
