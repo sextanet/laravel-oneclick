@@ -135,7 +135,7 @@ if (! function_exists('generate_oneclick_parent_id')) {
     {
         $app_name = str()->of(config('app.name'))->replace([' ', '.'], ['_', '_'])->lower();
         $app_env = config('app.env');
-        
+
         return $app_name.'-'.$app_env.'-'.$id;
     }
 }
