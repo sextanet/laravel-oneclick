@@ -2,16 +2,20 @@
 
 namespace SextaNet\LaravelOneclick\Traits;
 
+use SextaNet\LaravelOneclick\Exceptions\MissingOneclickParentId;
+use SextaNet\LaravelOneclick\LaravelOneclick;
 use SextaNet\LaravelOneclick\Models\OneclickCard;
-use SextaNet\LaravelOneclick\Models\OneclickTransaction;
 use Transbank\Webpay\Oneclick;
 
 trait PayWithOneclick
 {
+    public function getOneclickParentId(): string
+    {
+        return $this->id ?? throw new MissingOneclickParentId;
+    }
+
     public function payWithOneclick(OneclickCard $oneclick_card, int $installments_number = 0)
     {
-        $parent_order = generate_oneclick_parent_id($this->id);
-
         $details = [
             // [
             //     'amount' => $this->amount,
@@ -27,16 +31,6 @@ trait PayWithOneclick
             ],
         ];
 
-        $result = $oneclick_card->pay($parent_order, $details);
-
-        // dd($result);
-
-        $converted = format_transaction_response($result);
-
-        $transaction = $oneclick_card->transactions()->create($converted);
-
-        dd($transaction);
-
-        // dd(OneclickTransaction::create($converted));
+        return LaravelOneclick::payAndStore($this, $oneclick_card, $details);
     }
 }

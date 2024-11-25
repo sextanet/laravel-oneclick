@@ -2,9 +2,12 @@
 
 namespace SextaNet\LaravelOneclick;
 
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\View\View;
 use SextaNet\LaravelOneclick\Exceptions\CommerceCodeRequired;
 use SextaNet\LaravelOneclick\Exceptions\MissingKeysInProduction;
+use SextaNet\LaravelOneclick\Models\OneclickCard;
+use SextaNet\LaravelOneclick\Models\OneclickTransaction;
 use Transbank\Webpay\Oneclick\Exceptions\MallTransactionAuthorizeException;
 use Transbank\Webpay\Oneclick\MallInscription;
 use Transbank\Webpay\Oneclick\MallTransaction;
@@ -142,5 +145,18 @@ class LaravelOneclick
         } catch (\Exception $e) {
             throw $e;
         }
+    }
+
+    public static function payAndStore(Model $model, OneclickCard $oneclick_card, array $details): OneclickTransaction
+    {
+        $parent_order = generate_oneclick_parent_id($model->getOneclickParentId());
+
+        $result = $oneclick_card->pay($parent_order, $details);
+
+        // dd($result);
+
+        $converted = format_transaction_response($result);
+
+        return $oneclick_card->transactions()->create($converted);
     }
 }
