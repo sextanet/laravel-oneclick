@@ -30,7 +30,7 @@ class OneclickCard extends Model
         ]);
     }
 
-    public function pay($parent_buy_order, $details)
+    public function pay(string $parent_buy_order, array $details)
     {
         return LaravelOneclick::pay(
             $this->username,

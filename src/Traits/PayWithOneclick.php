@@ -10,17 +10,15 @@ trait PayWithOneclick
 {
     public function payWithOneclick(OneclickCard $oneclick_card, int $installments_number = 1)
     {
-        $app_name = str()->of(config('app.name'))->replace(' ', '-')->lower();
-        $app_env = config('app.env');
-        $parent_order = $app_name.'-'.$app_env.'-'.$this->id;
+        $parent_order = generate_oneclick_parent_id($this->id);
 
         $details = [
-            [
-                'amount' => $this->amount,
-                'buy_order' => $this->id,
-                'installments_number' => $installments_number,
-                'commerce_code' => Oneclick::DEFAULT_CHILD_COMMERCE_CODE_1,
-            ],
+            // [
+            //     'amount' => $this->amount,
+            //     'buy_order' => $this->id,
+            //     'installments_number' => $installments_number,
+            //     'commerce_code' => Oneclick::DEFAULT_CHILD_COMMERCE_CODE_1,
+            // ],
             [
                 'amount' => $this->amount,
                 'buy_order' => $this->id,

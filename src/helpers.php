@@ -129,3 +129,13 @@ if (! function_exists('format_transaction_response')) {
         ];
     }
 }
+
+if (! function_exists('generate_oneclick_parent_id')) {
+    function generate_oneclick_parent_id(string $id): string
+    {
+        $app_name = str()->of(config('app.name'))->replace([' ', '.'], ['_', '_'])->lower();
+        $app_env = config('app.env');
+        
+        return $app_name.'-'.$app_env.'-'.$id;
+    }
+}
