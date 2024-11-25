@@ -5,6 +5,7 @@ namespace SextaNet\LaravelOneclick\Enums;
 class ResponseStatus
 {
     const SUCCESS = 'success';
+
     const FAILED = 'failed';
 
     public static function getName($status)

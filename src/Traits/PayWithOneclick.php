@@ -28,7 +28,7 @@ trait PayWithOneclick
         $result = $oneclick_card->pay($this->id, $details);
 
         $converted = format_transaction_response($result);
-        
+
         dd(OneclickTransaction::create($converted));
     }
 }
