@@ -153,11 +153,10 @@ class LaravelOneclick
 
         $result = $oneclick_card->pay($parent_order, $details);
 
-        $converted = format_transaction_response($result);
-        $converted['transactable_type'] = $model::class;
-        $converted['transactable_id'] = $model->id;
-
-        // dd($converted);
+        $converted = array_merge(
+            format_transaction_response($result),
+            get_transactable_fields($model)
+        );
 
         return $oneclick_card->transactions()->create($converted);
     }

@@ -139,3 +139,13 @@ if (! function_exists('generate_oneclick_parent_id')) {
         return $app_name.'-'.$app_env.'-'.$id;
     }
 }
+
+if (! function_exists('get_transactable_fields')) {
+    function get_transactable_fields(Model $model): array
+    {
+        return [
+            'transactable_type' => $model::class,
+            'transactable_id' => $model->id,
+        ];
+    }
+}
