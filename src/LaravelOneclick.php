@@ -113,9 +113,16 @@ class LaravelOneclick
 
     public static function transactionInstance(): MallTransaction
     {
-        $instance = new MallTransaction;
+        if (! config('oneclick.in_production')) {
+            return new MallTransaction;
+        }
 
-        return $instance;
+        self::checkConfig();
+
+        return (new MallTransaction)->configureForProduction(
+            config('oneclick.commerce_code'),
+            config('oneclick.secret_key')
+        );
     }
 
     public static function pay(string $username, string $tbk_user, string $parent_buy_order, array $details): MallTransactionAuthorizeResponse
