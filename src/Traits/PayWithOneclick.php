@@ -8,7 +8,7 @@ use Transbank\Webpay\Oneclick;
 
 trait PayWithOneclick
 {
-    public function payWithOneclick(OneclickCard $oneclick_card, int $installments_number = 1)
+    public function payWithOneclick(OneclickCard $oneclick_card, int $installments_number = 0)
     {
         $parent_order = generate_oneclick_parent_id($this->id);
 
