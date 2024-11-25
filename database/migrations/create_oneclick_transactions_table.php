@@ -12,6 +12,7 @@ return new class extends Migration
         Schema::create('oneclick_transactions', function (Blueprint $table) {
             $table->id();
             $table->foreignIdFor(OneclickCard::class);
+            $table->morphs('transactable');
             $table->string('buy_order');
             $table->string('session_id')->nullable();
             $table->string('card_number');
