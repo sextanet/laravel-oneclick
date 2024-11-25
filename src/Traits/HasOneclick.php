@@ -7,6 +7,8 @@ use SextaNet\LaravelOneclick\Exceptions\MissingEmailOneclick;
 use SextaNet\LaravelOneclick\Exceptions\MissingUsernameOneclick;
 use SextaNet\LaravelOneclick\Facades\LaravelOneclick;
 use SextaNet\LaravelOneclick\Models\OneclickCard;
+use SextaNet\LaravelOneclick\Models\OneclickTransaction;
+use Transbank\Webpay\Oneclick;
 
 trait HasOneclick
 {
