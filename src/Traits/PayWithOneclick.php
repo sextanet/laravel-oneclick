@@ -10,6 +10,10 @@ trait PayWithOneclick
 {
     public function payWithOneclick(OneclickCard $oneclick_card, int $installments_number = 1)
     {
+        $app_name = str()->of(config('app.name'))->replace(' ', '-')->lower();
+        $app_env = config('app.env');
+        $parent_order = $app_name.'-'.$app_env.'-'.$this->id;
+
         $details = [
             [
                 'amount' => $this->amount,
@@ -25,7 +29,9 @@ trait PayWithOneclick
             ],
         ];
 
-        $result = $oneclick_card->pay($this->id, $details);
+        $result = $oneclick_card->pay($parent_order, $details);
+
+        dd($result);
 
         $converted = format_transaction_response($result);
 
