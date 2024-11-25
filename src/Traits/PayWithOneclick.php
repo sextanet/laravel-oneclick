@@ -29,10 +29,14 @@ trait PayWithOneclick
 
         $result = $oneclick_card->pay($parent_order, $details);
 
-        dd($result);
+        // dd($result);
 
         $converted = format_transaction_response($result);
 
-        dd(OneclickTransaction::create($converted));
+        $transaction = $oneclick_card->transactions()->create($converted);
+
+        dd($transaction);
+
+        // dd(OneclickTransaction::create($converted));
     }
 }

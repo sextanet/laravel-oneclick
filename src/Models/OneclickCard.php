@@ -3,11 +3,17 @@
 namespace SextaNet\LaravelOneclick\Models;
 
 use Illuminate\Database\Eloquent\Concerns\HasUlids;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use SextaNet\LaravelOneclick\Facades\LaravelOneclick;
 
 class OneclickCard extends Model
 {
     use HasUlids;
+
+    public function transactions(): HasMany
+    {
+        return $this->hasMany(OneclickTransaction::class);
+    }
 
     public function getLastDigitsAttribute(?string $replace_by = '')
     {

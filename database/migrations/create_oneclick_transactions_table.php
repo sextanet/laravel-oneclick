@@ -3,6 +3,7 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
+use SextaNet\LaravelOneclick\Models\OneclickCard;
 
 return new class extends Migration
 {
@@ -10,6 +11,7 @@ return new class extends Migration
     {
         Schema::create('oneclick_transactions', function (Blueprint $table) {
             $table->id();
+            $table->foreignIdFor(OneclickCard::class);
             $table->string('buy_order');
             $table->string('session_id')->nullable();
             $table->string('card_number');
