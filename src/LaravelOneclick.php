@@ -4,11 +4,10 @@ namespace SextaNet\LaravelOneclick;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\View\View;
-use SextaNet\LaravelOneclick\Exceptions\CommerceCodeRequired;
 use SextaNet\LaravelOneclick\Exceptions\MissingKeysInProduction;
+use SextaNet\LaravelOneclick\Exceptions\UnhandledAPIResponse;
 use SextaNet\LaravelOneclick\Models\OneclickCard;
 use SextaNet\LaravelOneclick\Models\OneclickTransaction;
-use Transbank\Webpay\Oneclick\Exceptions\MallTransactionAuthorizeException;
 use Transbank\Webpay\Oneclick\MallInscription;
 use Transbank\Webpay\Oneclick\MallTransaction;
 use Transbank\Webpay\Oneclick\Responses\InscriptionFinishResponse;
@@ -146,10 +145,8 @@ class LaravelOneclick
                 );
 
             return $response;
-        } catch (MallTransactionAuthorizeException $e) {
-            throw new CommerceCodeRequired($e->getMessage());
         } catch (\Exception $e) {
-            throw $e;
+            throw new UnhandledAPIResponse($e->getMessage());
         }
     }
 

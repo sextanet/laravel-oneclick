@@ -4,7 +4,7 @@ namespace SextaNet\LaravelOneclick\Exceptions;
 
 use Exception;
 
-class CommerceCodeRequired extends Exception
+class UnhandledAPIResponse extends Exception
 {
     public function __construct($message)
     {
