@@ -48,13 +48,10 @@ class Order extends Model
 }
 ```
 
-```php
-$order->payWithOneclick($oneclick_card);
-```
-
 Now, you can do that:
 
 ```php
+$order = Order::findById(1);
 $order->payWithOneclick($oneclick_card);
 ```
 
