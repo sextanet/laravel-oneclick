@@ -37,6 +37,29 @@ ONECLICK_DEBUG=true
 
 ## Usage
 
+### Registering a card
+
+Import the trait in your User or equivalent model
+
+```php
+use SextaNet\LaravelOneclick\Traits\HasOneclick;
+
+class User // extends ...
+{
+    use HasOneclick;
+}
+```
+
+Now, you can do that:
+
+```php
+$user = User::find(2);
+
+return $user->registerCardOneclick();
+```
+
+### Pay with registered card
+
 Import the trait in your Order or equivalent model
 
 ```php
@@ -51,7 +74,10 @@ class Order extends Model
 Now, you can do that:
 
 ```php
+$oneclick_card = User::find(2)->oneclick_cards()->first();
+
 $order = Order::findById(1);
+
 $order->payWithOneclick($oneclick_card);
 ```
 
@@ -61,7 +87,7 @@ Also, you can add installments by passing a second parameter:
 $order->payWithOneclick($oneclick_card, 3);
 ```
 
-For convenience, you can set custom pages for each status before calling `payWithOnepay() method`
+For convenience, you can set custom pages for each status before calling `payWithOneclick() method`
 
 ### Cancelled
 
