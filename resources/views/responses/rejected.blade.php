@@ -1,14 +1,14 @@
 @extends('oneclick::partials.layout')
 
-@section('title', 'Default approved response')
+@section('title', 'Default rejected response')
 
 @section('content')
-<div>This is the <span class="approved">approved</span> response endpoint</div>
+<div>This is the <span class="rejected">rejected</span> response endpoint</div>
 
 <div>Implement your custom logic by overriding</div>
 
 <pre data-comment="YourController">
-LaravelOneclick::setApprovedUrl(route('your.route'));
+LaravelOneclick::setRejectedUrl(route('your.route'));
 </pre>
 
 <div>

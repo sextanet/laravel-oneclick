@@ -91,11 +91,13 @@ class LaravelOneclick
         }
 
         if (self::inscriptionIsRejected($response)) {
-            return dd('rejected', $response);
+            // return dd('rejected', $response);
+            return view('oneclick::responses.rejected');
         }
 
         if (self::inscriptionIsCancelled($response)) {
-            return dd('cancelled', $response);
+            // return dd('cancelled', $response);
+            return view('oneclick::responses.cancelled');
         }
     }
 
@@ -130,6 +132,7 @@ class LaravelOneclick
 
     public static function pay(string $username, string $tbk_user, string $parent_buy_order, array $details): MallTransactionAuthorizeResponse
     {
+        // dd($parent_buy_order);
         try {
             $response = self::transactionInstance()
                 ->authorize(
