@@ -93,9 +93,10 @@ class LaravelOneclick
         if (self::inscriptionIsRejected($response)) {
             return view('oneclick::responses.rejected', compact('response'));
         }
-        
+
         if (self::inscriptionIsCancelled($response)) {
             $request = request()->all();
+
             return view('oneclick::responses.cancelled', compact('response', 'request'));
         }
     }
