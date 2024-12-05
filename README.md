@@ -116,6 +116,10 @@ LaravelOneclick::setRejectedUrl('/rejected-page');
 
 Source: [Official Transbank Developers website](https://www.transbankdevelopers.cl/documentacion/como_empezar#tarjetas-de-prueba)
 
+## Integration
+
+[Official Laravel integration project](https://github.com/sextanet/laravel-oneclick-integration)
+
 ## Production mode
 
 When you are ready to be in production, you need to set `WEBPAY_IN_PRODUCTION` to `true`, and specify `WEBPAY_COMMERCE_CODE` and `WEBPAY_SECRET_KEY`.
