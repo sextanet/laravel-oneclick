@@ -136,7 +136,9 @@ if (! function_exists('generate_oneclick_parent_id')) {
         $app_name = str()->of(config('app.name'))->replace([' ', '.'], ['_', '_'])->lower();
         $app_env = config('app.env');
 
-        return $app_name.'-'.$app_env.'-'.$id;
+        $full_name = $app_name.'-'.$app_env.'-'.$id;
+        
+        return str()->of($full_name)->take(10); // 17 with one character (1), 16 with 2 (10), 15 with 3 (100), 14 with 4 (1000), 13 with 5 (10000), 12 with 6 (100000), 11 with 7 (1000000), etc.
     }
 }
 
