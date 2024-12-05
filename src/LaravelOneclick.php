@@ -54,6 +54,11 @@ class LaravelOneclick
         session()->flash('approved_url', $approved_url);
     }
 
+    public static function setCancelledUrl(string $cancelled_url): void
+    {
+        session()->flash('cancelled_url', $cancelled_url);
+    }
+
     public static function registerCard(string $username, string $email): View
     {
         put_oneclick_user_session($username);
