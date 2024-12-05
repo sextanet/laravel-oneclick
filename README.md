@@ -37,6 +37,33 @@ ONECLICK_DEBUG=true
 
 ## Usage
 
+Import the trait in your Order or equivalent model
+
+```php
+use SextaNet\LaravelOneclick\Traits\PayWithOneclick;
+
+class Order extends Model
+{
+    use PayWithOneclick;
+}
+```
+
+```php
+$order->payWithOneclick($oneclick_card);
+```
+
+Now, you can do that:
+
+```php
+$order->payWithOneclick($oneclick_card);
+```
+
+Also, you can add installments by passing a second parameter:
+
+```php
+$order->payWithOneclick($oneclick_card, 3);
+```
+
 For convenience, you can set custom pages for each status before calling `payWithOnepay() method`
 
 ### Cancelled
