@@ -1,5 +1,5 @@
-@if(config('oneclick.debug'))
-    <code class="response" data-comment="💡 Response for easy debug">
-        {{ var_export(request()->all()) }}
-    </code>
+@if (config('oneclick.debug'))
+<pre class="response" data-comment="💡 Request for easy debug">
+{{ print_r(request()->all()) }}
+</pre>
 @endif

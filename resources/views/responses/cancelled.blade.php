@@ -13,15 +13,6 @@ LaravelOneclick::setCancelledUrl(route('your.route'));
 
 <div>
     Click or touch to see the
-    <span class="toggle">$request</span>
-</div>
-
-<pre class="hidden" data-comment="Request Dump (you can use any property or method)">
-@php(print_r($request))
-</pre>
-
-<div>
-    Click or touch to see the
     <span class="toggle">$response</span>
 </div>
 

@@ -95,9 +95,7 @@ class LaravelOneclick
         }
 
         if (self::inscriptionIsCancelled($response)) {
-            $request = request()->all();
-
-            return view('oneclick::responses.cancelled', compact('response', 'request'));
+            return view('oneclick::responses.cancelled', compact('response'));
         }
     }
 
