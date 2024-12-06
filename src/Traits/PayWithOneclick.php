@@ -14,8 +14,12 @@ trait PayWithOneclick
         return $this->id ?? throw new MissingOneclickParentId;
     }
 
-    public function payWithOneclick(OneclickCard $oneclick_card, int $installments_number = 0)
+    public function payWithOneclick(OneclickCard $oneclick_card, int $installments_number = 0, $mall_code = null)
     {
+        if (! $mall_code) {
+            $mall_code = get_mall_code();
+        }
+
         $details = [
             // [
             //     'amount' => $this->amount,
@@ -27,7 +31,7 @@ trait PayWithOneclick
                 'amount' => $this->amount,
                 'buy_order' => $this->id,
                 'installments_number' => $installments_number,
-                'commerce_code' => Oneclick::DEFAULT_CHILD_COMMERCE_CODE_1,
+                'commerce_code' => $mall_code,
             ],
         ];
 

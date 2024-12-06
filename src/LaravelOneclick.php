@@ -33,7 +33,7 @@ class LaravelOneclick
 
     protected static function checkConfig(): void
     {
-        if (! config('oneclick.commerce_code') || ! config('oneclick.secret')) {
+        if (! config('oneclick.secret_key') || ! config('oneclick.commerce_code') || ! config('oneclick.mall_code')) {
             throw new MissingKeysInProduction;
         }
     }

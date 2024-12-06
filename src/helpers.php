@@ -3,6 +3,7 @@
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Carbon;
 use SextaNet\LaravelOneclick\Enums\ResponseStatus;
+use Transbank\Webpay\Oneclick;
 
 if (! function_exists('put_oneclickable_session')) {
     function put_oneclickable_session(Model $model): void
@@ -150,5 +151,16 @@ if (! function_exists('get_transactable_fields')) {
             'transactable_type' => $model::class,
             'transactable_id' => $model->id,
         ];
+    }
+}
+
+if (! function_exists('get_mall_code')) {
+    function get_mall_code(): string
+    {
+        if (config('oneclick.in_production')) {
+            return config('oneclick.mall_code');
+        }
+
+        return Oneclick::DEFAULT_CHILD_COMMERCE_CODE_1;
     }
 }

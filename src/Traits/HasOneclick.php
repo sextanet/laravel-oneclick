@@ -42,6 +42,7 @@ trait HasOneclick
             'authorization_code' => $authorization_code,
             'card_type' => $card_type,
             'card_number' => $card_number,
+            // 'tbk_mall_code' => config('oneclick.mall_code'),
             'tbk_commerce_code' => config('oneclick.commerce_code'),
             'tbk_secret_key' => config('oneclick.secret_key'),
             'name' => $name,
