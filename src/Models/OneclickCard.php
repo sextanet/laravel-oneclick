@@ -45,4 +45,9 @@ class OneclickCard extends Model
             $details
         );
     }
+
+    public function getLogoUrlAttribute(): ?string
+    {
+        return config('oneclick.logos.'.strtolower($this->card_type));
+    }
 }
