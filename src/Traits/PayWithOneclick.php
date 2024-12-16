@@ -5,7 +5,6 @@ namespace SextaNet\LaravelOneclick\Traits;
 use SextaNet\LaravelOneclick\Exceptions\MissingOneclickParentId;
 use SextaNet\LaravelOneclick\LaravelOneclick;
 use SextaNet\LaravelOneclick\Models\OneclickCard;
-use Transbank\Webpay\Oneclick;
 
 trait PayWithOneclick
 {

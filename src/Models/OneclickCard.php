@@ -38,12 +38,22 @@ class OneclickCard extends Model
 
     public function pay(string $parent_buy_order, array $details)
     {
-        return LaravelOneclick::pay(
-            $this->username,
-            $this->tbk_user,
-            $parent_buy_order,
-            $details
-        );
+        try {
+            $result = LaravelOneclick::pay(
+                $this->username,
+                $this->tbk_user,
+                $parent_buy_order,
+                $details
+            );
+
+            $this->markSuccess();
+
+            return $result;
+        } catch (\Exception $e) {
+            $this->markError();
+
+            throw $e;
+        }
     }
 
     public function getLogoUrlAttribute(): ?string
