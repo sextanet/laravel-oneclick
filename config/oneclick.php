@@ -32,8 +32,9 @@ return [
     */
 
     'in_production' => env('ONECLICK_IN_PRODUCTION', false),
-    'commerce_code' => env('ONECLICK_COMMERCE_CODE'),
     'secret_key' => env('ONECLICK_SECRET_KEY'),
+    'mall_code' => env('ONECLICK_MALL_CODE'),
+    'commerce_code' => env('ONECLICK_COMMERCE_CODE'),
     'debug' => env('ONECLICK_DEBUG', false),
 
     // Optional fields

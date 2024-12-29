@@ -2,10 +2,16 @@
 
 namespace SextaNet\LaravelOneclick;
 
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\View\View;
 use SextaNet\LaravelOneclick\Exceptions\MissingKeysInProduction;
+use SextaNet\LaravelOneclick\Exceptions\UnhandledAPIResponse;
+use SextaNet\LaravelOneclick\Models\OneclickCard;
+use SextaNet\LaravelOneclick\Models\OneclickTransaction;
 use Transbank\Webpay\Oneclick\MallInscription;
+use Transbank\Webpay\Oneclick\MallTransaction;
 use Transbank\Webpay\Oneclick\Responses\InscriptionFinishResponse;
+use Transbank\Webpay\Oneclick\Responses\MallTransactionAuthorizeResponse;
 
 class LaravelOneclick
 {
@@ -27,7 +33,7 @@ class LaravelOneclick
 
     protected static function checkConfig(): void
     {
-        if (! config('oneclick.commerce_code') || ! config('oneclick.secret')) {
+        if (! config('oneclick.secret_key') || ! config('oneclick.commerce_code') || ! config('oneclick.mall_code')) {
             throw new MissingKeysInProduction;
         }
     }
@@ -47,8 +53,15 @@ class LaravelOneclick
         session()->flash('approved_url', $approved_url);
     }
 
+    public static function setCancelledUrl(string $cancelled_url): void
+    {
+        session()->flash('cancelled_url', $cancelled_url);
+    }
+
     public static function registerCard(string $username, string $email): View
     {
+        put_oneclick_user_session($username);
+
         $response = self::instance()
             ->start($username, $email, self::getResponseUrl());
 
@@ -67,6 +80,7 @@ class LaravelOneclick
             $model = get_oneclickable_session();
 
             $model->storeCardOneclick(
+                get_oneclick_user_session(),
                 $response->getTbkUser(),
                 $response->getAuthorizationCode(),
                 $response->getCardType(),
@@ -81,11 +95,11 @@ class LaravelOneclick
         }
 
         if (self::inscriptionIsRejected($response)) {
-            return dd('rejected', $response);
+            return view('oneclick::responses.rejected', compact('response'));
         }
 
         if (self::inscriptionIsCancelled($response)) {
-            return dd('cancelled', $response);
+            return view('oneclick::responses.cancelled', compact('response'));
         }
     }
 
@@ -102,5 +116,51 @@ class LaravelOneclick
     protected static function inscriptionIsCancelled(InscriptionFinishResponse $response): bool
     {
         return $response->getResponseCode() === -96;
+    }
+
+    public static function transactionInstance(): MallTransaction
+    {
+        if (! config('oneclick.in_production')) {
+            return new MallTransaction;
+        }
+
+        self::checkConfig();
+
+        return (new MallTransaction)->configureForProduction(
+            config('oneclick.commerce_code'),
+            config('oneclick.secret_key')
+        );
+    }
+
+    public static function pay(string $username, string $tbk_user, string $parent_buy_order, array $details): MallTransactionAuthorizeResponse
+    {
+        // dd($parent_buy_order);
+        try {
+            $response = self::transactionInstance()
+                ->authorize(
+                    $username,
+                    $tbk_user,
+                    $parent_buy_order,
+                    $details
+                );
+
+            return $response;
+        } catch (\Exception $e) {
+            throw new UnhandledAPIResponse($e->getMessage());
+        }
+    }
+
+    public static function payAndStore(Model $model, OneclickCard $oneclick_card, array $details): OneclickTransaction
+    {
+        $parent_order = generate_oneclick_parent_id($model->getOneclickParentId());
+
+        $result = $oneclick_card->pay($parent_order, $details);
+
+        $converted = array_merge(
+            format_transaction_response($result),
+            get_transactable_fields($model)
+        );
+
+        return $oneclick_card->transactions()->create($converted);
     }
 }

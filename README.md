@@ -30,14 +30,65 @@ Copy these keys in your `.env` file
 
 ```dotenv
 ONECLICK_IN_PRODUCTION=false
-ONECLICK_COMMERCE_CODE=
 ONECLICK_SECRET_KEY=
+ONECLICK_COMMERCE_CODE=
+ONECLICK_MALL_CODE=
 ONECLICK_DEBUG=true
 ```
 
 ## Usage
 
-For convenience, you can set custom pages for each status before calling `payWithOnepay() method`
+### Registering a card
+
+Import the trait in your User or equivalent model
+
+```php
+use SextaNet\LaravelOneclick\Traits\HasOneclick;
+
+class User // extends ...
+{
+    use HasOneclick;
+}
+```
+
+Now, you can do that:
+
+```php
+$user = User::find(2);
+
+return $user->registerCardOneclick();
+```
+
+### Pay with registered card
+
+Import the trait in your Order or equivalent model
+
+```php
+use SextaNet\LaravelOneclick\Traits\PayWithOneclick;
+
+class Order extends Model
+{
+    use PayWithOneclick;
+}
+```
+
+Now, you can do that:
+
+```php
+$oneclick_card = User::find(2)->oneclick_cards()->first();
+
+$order = Order::findById(1);
+
+$order->payWithOneclick($oneclick_card);
+```
+
+Also, you can add installments by passing a second parameter:
+
+```php
+$order->payWithOneclick($oneclick_card, 3);
+```
+
+For convenience, you can set custom pages for each status before calling `payWithOneclick() method`
 
 ### Cancelled
 
@@ -65,6 +116,10 @@ LaravelOneclick::setRejectedUrl('/rejected-page');
 - Password: 123
 
 Source: [Official Transbank Developers website](https://www.transbankdevelopers.cl/documentacion/como_empezar#tarjetas-de-prueba)
+
+## Integration
+
+[Official Laravel integration project](https://github.com/sextanet/laravel-oneclick-integration)
 
 ## Production mode
 
