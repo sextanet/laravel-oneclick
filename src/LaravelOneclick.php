@@ -100,7 +100,7 @@ class LaravelOneclick
         }
 
         if (self::inscriptionIsRejected($response)) {
-            session()->get('rejected_url')
+            return session()->get('rejected_url')
                 ? redirect(session()->get('rejected_url'))
                 : view('oneclick::responses.rejected', compact('response'));
         }
