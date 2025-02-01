@@ -53,6 +53,11 @@ class LaravelOneclick
         session()->flash('approved_url', $approved_url);
     }
 
+    public static function setRejectedUrl(string $rejected_url): void
+    {
+        session()->flash('rejected_url', $rejected_url);
+    }
+
     public static function setCancelledUrl(string $cancelled_url): void
     {
         session()->flash('cancelled_url', $cancelled_url);
@@ -95,11 +100,15 @@ class LaravelOneclick
         }
 
         if (self::inscriptionIsRejected($response)) {
-            return view('oneclick::responses.rejected', compact('response'));
+            return session()->get('rejected_url')
+                ? redirect(session()->get('rejected_url'))
+                : view('oneclick::responses.rejected', compact('response'));
         }
 
         if (self::inscriptionIsCancelled($response)) {
-            return view('oneclick::responses.cancelled', compact('response'));
+            return session()->get('cancelled_url')
+                ? redirect(session()->get('cancelled_url'))
+                : view('oneclick::responses.cancelled', compact('response'));
         }
     }
 
