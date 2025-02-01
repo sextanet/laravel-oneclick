@@ -53,7 +53,7 @@ class LaravelOneclick
         session()->flash('approved_url', $approved_url);
     }
 
-    public static function setRejecteddUrl(string $rejected_url): void
+    public static function setRejectedUrl(string $rejected_url): void
     {
         session()->flash('rejected_url', $rejected_url);
     }
