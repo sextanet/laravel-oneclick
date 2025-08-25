@@ -8,6 +8,7 @@ use SextaNet\LaravelOneclick\Exceptions\MissingKeysInProduction;
 use SextaNet\LaravelOneclick\Exceptions\UnhandledAPIResponse;
 use SextaNet\LaravelOneclick\Models\OneclickCard;
 use SextaNet\LaravelOneclick\Models\OneclickTransaction;
+use Transbank\Webpay\Oneclick;
 use Transbank\Webpay\Oneclick\MallInscription;
 use Transbank\Webpay\Oneclick\MallTransaction;
 use Transbank\Webpay\Oneclick\Responses\InscriptionFinishResponse;
@@ -15,25 +16,34 @@ use Transbank\Webpay\Oneclick\Responses\MallTransactionAuthorizeResponse;
 
 class LaravelOneclick
 {
-    public static function instance()
+    public static function instance(): MallInscription
     {
-        $instance = new MallInscription;
+        return config('oneclick.in_production')
+            ? static::createInscriptionForProduction()
+            : static::createInscriptionForIntegration();
+    }
 
-        if (! config('oneclick.in_production')) {
-            return $instance;
-        }
-
-        self::checkConfig();
-
-        return $instance->configureForProduction(
-            config('oneclick.commerce_code'),
-            config('oneclick.secret_key')
+    protected static function createInscriptionForIntegration(): MallInscription
+    {
+        return MallInscription::buildForIntegration(
+            Oneclick::INTEGRATION_API_KEY,
+            Oneclick::INTEGRATION_COMMERCE_CODE
         );
     }
 
-    protected static function checkConfig(): void
+    protected static function createInscriptionForProduction(): MallInscription
     {
-        if (! config('oneclick.secret_key') || ! config('oneclick.commerce_code') || ! config('oneclick.mall_code')) {
+        self::checkProductionKeys();
+
+        return MallInscription::buildForProduction(
+            config('oneclick.api_key'),
+            config('oneclick.commerce_code')
+        );
+    }
+
+    protected static function checkProductionKeys(): void
+    {
+        if (! config('oneclick.api_key') || ! config('oneclick.commerce_code') || ! config('oneclick.mall_code')) {
             throw new MissingKeysInProduction;
         }
     }
@@ -129,15 +139,26 @@ class LaravelOneclick
 
     public static function transactionInstance(): MallTransaction
     {
-        if (! config('oneclick.in_production')) {
-            return new MallTransaction;
-        }
+        return config('oneclick.in_production')
+            ? static::createTransactionForProduction()
+            : static::createTransactionForIntegration();
+    }
 
-        self::checkConfig();
+    public static function createTransactionForIntegration(): MallTransaction
+    {
+        return MallTransaction::buildForIntegration(
+            Oneclick::INTEGRATION_API_KEY,
+            Oneclick::INTEGRATION_COMMERCE_CODE
+        );
+    }
 
-        return (new MallTransaction)->configureForProduction(
-            config('oneclick.commerce_code'),
-            config('oneclick.secret_key')
+    public static function createTransactionForProduction(): MallTransaction
+    {
+        self::checkProductionKeys();
+
+        return MallTransaction::buildForProduction(
+            config('oneclick.api_key'),
+            config('oneclick.commerce_code')
         );
     }
 
