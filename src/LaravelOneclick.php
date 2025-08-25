@@ -15,25 +15,35 @@ use Transbank\Webpay\Oneclick\Responses\MallTransactionAuthorizeResponse;
 
 class LaravelOneclick
 {
-    public static function instance()
+    protected static string $api_key = '579B532A7440BB0C9079DED94D31EA1615BACEB56610332264630D42D0A36B1C';
+
+    protected static string $commerce_code = '597055555541';
+
+    public static function instance(): MallInscription
     {
-        $instance = new MallInscription;
+        return config('oneclick.in_production')
+            ? static::createTransactionForProduction()
+            : static::createTransactionForIntegration();
+    }
 
-        if (! config('oneclick.in_production')) {
-            return $instance;
-        }
+    protected static function createTransactionForIntegration(): MallInscription
+    {
+        return MallInscription::buildForIntegration(static::$api_key, static::$commerce_code);
+    }
 
-        self::checkConfig();
+    protected static function createTransactionForProduction(): MallInscription
+    {
+        self::checkProductionKeys();
 
-        return $instance->configureForProduction(
-            config('oneclick.commerce_code'),
-            config('oneclick.secret_key')
+        return MallInscription::buildForProduction(
+            config('oneclick.api_key'),
+            config('oneclick.commerce_code')
         );
     }
 
-    protected static function checkConfig(): void
+    protected static function checkProductionKeys(): void
     {
-        if (! config('oneclick.secret_key') || ! config('oneclick.commerce_code') || ! config('oneclick.mall_code')) {
+        if (! config('oneclick.api_key') || ! config('oneclick.commerce_code') || ! config('oneclick.mall_code')) {
             throw new MissingKeysInProduction;
         }
     }
@@ -133,11 +143,11 @@ class LaravelOneclick
             return new MallTransaction;
         }
 
-        self::checkConfig();
+        self::checkProductionKeys();
 
         return (new MallTransaction)->configureForProduction(
             config('oneclick.commerce_code'),
-            config('oneclick.secret_key')
+            config('oneclick.api_key')
         );
     }
 

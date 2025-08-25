@@ -30,7 +30,7 @@ Copy these keys in your `.env` file
 
 ```dotenv
 ONECLICK_IN_PRODUCTION=false
-ONECLICK_SECRET_KEY=
+ONECLICK_API_KEY=
 ONECLICK_COMMERCE_CODE=
 ONECLICK_MALL_CODE=
 ONECLICK_DEBUG=true
@@ -123,7 +123,7 @@ Source: [Official Transbank Developers website](https://www.transbankdevelopers.
 
 ## Production mode
 
-When you are ready to be in production, you need to set `WEBPAY_IN_PRODUCTION` to `true`, and specify `WEBPAY_COMMERCE_CODE` and `WEBPAY_SECRET_KEY`.
+When you are ready to be in production, you need to set `WEBPAY_IN_PRODUCTION` to `true`, and specify `WEBPAY_COMMERCE_CODE` and `WEBPAY_API_KEY`.
 
 ## License
 

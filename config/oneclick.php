@@ -32,7 +32,7 @@ return [
     */
 
     'in_production' => env('ONECLICK_IN_PRODUCTION', false),
-    'secret_key' => env('ONECLICK_SECRET_KEY'),
+    'api_key' => env('ONECLICK_API_KEY'),
     'mall_code' => env('ONECLICK_MALL_CODE'),
     'commerce_code' => env('ONECLICK_COMMERCE_CODE'),
     'debug' => env('ONECLICK_DEBUG', false),

@@ -44,7 +44,7 @@ trait HasOneclick
             'card_number' => $card_number,
             // 'tbk_mall_code' => config('oneclick.mall_code'),
             'tbk_commerce_code' => config('oneclick.commerce_code'),
-            'tbk_secret_key' => config('oneclick.secret_key'),
+            'tbk_api_key' => config('oneclick.api_key'),
             'name' => $name,
             'is_favourite' => true,
         ]);

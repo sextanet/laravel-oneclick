@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string('card_type');
             $table->string('card_number');
             $table->string('tbk_commerce_code')->nullable();
-            $table->string('tbk_secret_key')->nullable();
+            $table->string('tbk_api_key')->nullable();
             $table->string('name')->nullable();
             $table->boolean('is_favourite')->default(false);
             $table->datetime('last_time_used_successfully')->nullable();
