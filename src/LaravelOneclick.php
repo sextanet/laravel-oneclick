@@ -139,15 +139,26 @@ class LaravelOneclick
 
     public static function transactionInstance(): MallTransaction
     {
-        if (! config('oneclick.in_production')) {
-            return new MallTransaction;
-        }
+        return config('oneclick.in_production')
+            ? static::createTransactionForProduction()
+            : static::createTransactionForIntegration();
+    }
 
+    public static function createTransactionForIntegration(): MallTransaction
+    {
+        return MallTransaction::buildForIntegration(
+            Oneclick::INTEGRATION_API_KEY,
+            Oneclick::INTEGRATION_COMMERCE_CODE
+        );
+    }
+
+    public static function createTransactionForProduction(): MallTransaction
+    {
         self::checkProductionKeys();
 
-        return (new MallTransaction)->configureForProduction(
-            config('oneclick.commerce_code'),
-            config('oneclick.api_key')
+        return MallTransaction::buildForProduction(
+            config('oneclick.api_key'),
+            config('oneclick.commerce_code')
         );
     }
 
