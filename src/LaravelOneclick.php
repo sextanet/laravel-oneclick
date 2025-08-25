@@ -19,11 +19,11 @@ class LaravelOneclick
     public static function instance(): MallInscription
     {
         return config('oneclick.in_production')
-            ? static::createTransactionForProduction()
-            : static::createTransactionForIntegration();
+            ? static::createInscriptionForProduction()
+            : static::createInscriptionForIntegration();
     }
 
-    protected static function createTransactionForIntegration(): MallInscription
+    protected static function createInscriptionForIntegration(): MallInscription
     {
         return MallInscription::buildForIntegration(
             Oneclick::INTEGRATION_API_KEY,
@@ -31,7 +31,7 @@ class LaravelOneclick
         );
     }
 
-    protected static function createTransactionForProduction(): MallInscription
+    protected static function createInscriptionForProduction(): MallInscription
     {
         self::checkProductionKeys();
 
