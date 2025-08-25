@@ -8,6 +8,7 @@ use SextaNet\LaravelOneclick\Exceptions\MissingKeysInProduction;
 use SextaNet\LaravelOneclick\Exceptions\UnhandledAPIResponse;
 use SextaNet\LaravelOneclick\Models\OneclickCard;
 use SextaNet\LaravelOneclick\Models\OneclickTransaction;
+use Transbank\Webpay\Oneclick;
 use Transbank\Webpay\Oneclick\MallInscription;
 use Transbank\Webpay\Oneclick\MallTransaction;
 use Transbank\Webpay\Oneclick\Responses\InscriptionFinishResponse;
@@ -15,10 +16,6 @@ use Transbank\Webpay\Oneclick\Responses\MallTransactionAuthorizeResponse;
 
 class LaravelOneclick
 {
-    protected static string $api_key = '579B532A7440BB0C9079DED94D31EA1615BACEB56610332264630D42D0A36B1C';
-
-    protected static string $commerce_code = '597055555541';
-
     public static function instance(): MallInscription
     {
         return config('oneclick.in_production')
@@ -28,7 +25,10 @@ class LaravelOneclick
 
     protected static function createTransactionForIntegration(): MallInscription
     {
-        return MallInscription::buildForIntegration(static::$api_key, static::$commerce_code);
+        return MallInscription::buildForIntegration(
+            Oneclick::INTEGRATION_API_KEY,
+            Oneclick::INTEGRATION_COMMERCE_CODE
+        );
     }
 
     protected static function createTransactionForProduction(): MallInscription
