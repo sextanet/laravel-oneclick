@@ -157,10 +157,8 @@ if (! function_exists('get_transactable_fields')) {
 if (! function_exists('get_mall_code')) {
     function get_mall_code(): string
     {
-        if (config('oneclick.in_production')) {
-            return config('oneclick.mall_code');
-        }
-
-        return Oneclick::DEFAULT_CHILD_COMMERCE_CODE_1;
+        return config('oneclick.in_production')
+            ? config('oneclick.mall_code')
+            : Oneclick::INTEGRATION_CHILD_COMMERCE_CODE_1;
     }
 }
