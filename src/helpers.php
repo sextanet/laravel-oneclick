@@ -111,16 +111,20 @@ if (! function_exists('get_status_response')) {
 if (! function_exists('format_transaction_response')) {
     function format_transaction_response($response): array
     {
+        // dd($response);
+
         return [
-            'buy_order' => $response->buyOrder,
-            'session_id' => $response->sessionId,
-            'card_number' => $response->cardNumber,
-            'expiration_date' => $response->expirationDate,
-            'accounting_date' => $response->accountingDate,
-            'transaction_date' => $response->transactionDate,
-            'expiration_at' => get_nullable_laravel_date($response->expirationDate),
-            'transaction_at' => get_nullable_laravel_date($response->transactionDate),
-            'details' => $response->details,
+            'json' => (object) $response,
+            // 'buy_order' => $response->buyOrder,
+            // 'session_id' => $response->sessionId,
+            // 'card_detail' => $response->cardDetail,
+            // 'card_number' => $response->cardNumber,
+            // 'expiration_date' => $response->expirationDate,
+            // 'accounting_date' => $response->accountingDate,
+            // 'transaction_date' => $response->transactionDate,
+            // 'expiration_at' => get_nullable_laravel_date($response->expirationDate),
+            // 'transaction_at' => get_nullable_laravel_date($response->transactionDate),
+            // 'details' => $response->details,
             'success_transactions_count' => get_success_transactions_count($response->details),
             'failed_transactions_count' => get_failed_transactions_count($response->details),
             'total_transactions_count' => get_total_transactions_count($response->details),
