@@ -2,6 +2,15 @@
 
 All notable changes to `laravel-oneclick` will be documented in this file.
 
+## 2.0.0 - 2025-11-30
+
+### What's Changed
+
+* refactor: database structure to json by @sebacarrasco93 in https://github.com/sextanet/laravel-oneclick/pull/13
+* chore: prepare to release 2.0.0 by @sebacarrasco93 in https://github.com/sextanet/laravel-oneclick/pull/14
+
+**Full Changelog**: https://github.com/sextanet/laravel-oneclick/compare/1.0.1...2.0.0
+
 ## 0.0.6 - 2025-08-25
 
 ### What's Changed
