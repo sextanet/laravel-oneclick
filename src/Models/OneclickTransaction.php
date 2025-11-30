@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Relations\MorphTo;
 class OneclickTransaction extends Model
 {
     protected $casts = [
-        'details' => 'array',
+        'json' => 'array',
     ];
 
     protected $dates = [
