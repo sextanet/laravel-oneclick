@@ -2,6 +2,12 @@
 
 All notable changes to `laravel-oneclick` will be documented in this file.
 
+## 2.1.0 - 2026-04-10
+
+- Adds support to Laravel 13
+
+**Full Changelog**: https://github.com/sextanet/laravel-oneclick/compare/2.0.0...2.1.0
+
 ## 2.0.0 - 2025-11-30
 
 ### What's Changed
