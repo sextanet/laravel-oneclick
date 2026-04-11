@@ -1,6 +1,8 @@
 <?php
 
+use PHPUnit\Framework\AssertionFailedError;
 use SextaNet\LaravelOneclick\LaravelOneclick;
+use SextaNet\LaravelOneclick\Testing\FakeRequestService;
 use SextaNet\LaravelOneclick\Testing\LaravelOneclickFake;
 use Transbank\Webpay\Oneclick\Responses\InscriptionFinishResponse;
 use Transbank\Webpay\Oneclick\Responses\InscriptionStartResponse;
@@ -21,7 +23,7 @@ it('restores normal mode after disableTests()', function () {
     $inscription = LaravelOneclick::instance();
 
     expect($inscription->getRequestService())
-        ->not->toBeInstanceOf(\SextaNet\LaravelOneclick\Testing\FakeRequestService::class);
+        ->not->toBeInstanceOf(FakeRequestService::class);
 });
 
 it('returns the stub inscription start response', function () {
@@ -164,7 +166,7 @@ it('raises an error when no stub is queued for a call', function () {
     LaravelOneclick::enableTests();
 
     expect(fn () => LaravelOneclick::instance()->start('u', 'u@test.com', 'https://example.com'))
-        ->toThrow(\RuntimeException::class, 'LaravelOneclick fake has no more queued responses');
+        ->toThrow(RuntimeException::class, 'LaravelOneclick fake has no more queued responses');
 });
 
 it('passes assertAllResponsesConsumed when all stubs were used', function () {
@@ -184,5 +186,5 @@ it('fails assertAllResponsesConsumed when stubs remain unused', function () {
     LaravelOneclick::instance()->start('u', 'u@test.com', 'https://example.com');
 
     expect(fn () => $fake->assertAllResponsesConsumed())
-        ->toThrow(\PHPUnit\Framework\AssertionFailedError::class);
+        ->toThrow(AssertionFailedError::class);
 });

@@ -2,6 +2,8 @@
 
 namespace SextaNet\LaravelOneclick\Testing;
 
+use PHPUnit\Framework\Assert;
+
 class LaravelOneclickFake
 {
     public function __construct(
@@ -78,7 +80,7 @@ class LaravelOneclickFake
         $inscription = $this->inscriptionService->pendingCount();
         $transaction = $this->transactionService->pendingCount();
 
-        \PHPUnit\Framework\Assert::assertEquals(
+        Assert::assertEquals(
             0,
             $inscription + $transaction,
             "LaravelOneclick fake still has {$inscription} inscription and {$transaction} transaction response(s) queued."
