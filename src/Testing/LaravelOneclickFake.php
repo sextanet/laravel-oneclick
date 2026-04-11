@@ -87,7 +87,7 @@ class LaravelOneclickFake
 
     protected static function stub(string $name): array
     {
-        $path = __DIR__ . '/stubs/' . $name . '.json';
+        $path = __DIR__.'/stubs/'.$name.'.json';
 
         if (! file_exists($path)) {
             throw new \InvalidArgumentException("Oneclick stub [{$name}] not found at [{$path}].");

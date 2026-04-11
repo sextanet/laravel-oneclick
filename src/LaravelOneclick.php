@@ -28,8 +28,8 @@ class LaravelOneclick
     public static function enableTests(): LaravelOneclickFake
     {
         static::$testingEnabled = true;
-        static::$fakeInscriptionService = new FakeRequestService();
-        static::$fakeTransactionService = new FakeRequestService();
+        static::$fakeInscriptionService = new FakeRequestService;
+        static::$fakeTransactionService = new FakeRequestService;
 
         return new LaravelOneclickFake(
             static::$fakeInscriptionService,
