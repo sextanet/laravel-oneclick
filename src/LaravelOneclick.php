@@ -8,16 +8,54 @@ use SextaNet\LaravelOneclick\Exceptions\MissingKeysInProduction;
 use SextaNet\LaravelOneclick\Exceptions\UnhandledAPIResponse;
 use SextaNet\LaravelOneclick\Models\OneclickCard;
 use SextaNet\LaravelOneclick\Models\OneclickTransaction;
+use SextaNet\LaravelOneclick\Testing\FakeRequestService;
+use SextaNet\LaravelOneclick\Testing\LaravelOneclickFake;
 use Transbank\Webpay\Oneclick;
 use Transbank\Webpay\Oneclick\MallInscription;
 use Transbank\Webpay\Oneclick\MallTransaction;
 use Transbank\Webpay\Oneclick\Responses\InscriptionFinishResponse;
 use Transbank\Webpay\Oneclick\Responses\MallTransactionAuthorizeResponse;
+use Transbank\Webpay\Options;
 
 class LaravelOneclick
 {
+    protected static bool $testingEnabled = false;
+
+    protected static ?FakeRequestService $fakeInscriptionService = null;
+
+    protected static ?FakeRequestService $fakeTransactionService = null;
+
+    public static function enableTests(): LaravelOneclickFake
+    {
+        static::$testingEnabled = true;
+        static::$fakeInscriptionService = new FakeRequestService();
+        static::$fakeTransactionService = new FakeRequestService();
+
+        return new LaravelOneclickFake(
+            static::$fakeInscriptionService,
+            static::$fakeTransactionService,
+        );
+    }
+
+    public static function disableTests(): void
+    {
+        static::$testingEnabled = false;
+        static::$fakeInscriptionService = null;
+        static::$fakeTransactionService = null;
+    }
+
     public static function instance(): MallInscription
     {
+        if (static::$testingEnabled && static::$fakeInscriptionService) {
+            $options = new Options(
+                Oneclick::INTEGRATION_API_KEY,
+                Oneclick::INTEGRATION_COMMERCE_CODE,
+                Options::ENVIRONMENT_INTEGRATION
+            );
+
+            return new MallInscription($options, static::$fakeInscriptionService);
+        }
+
         return config('oneclick.in_production')
             ? static::createInscriptionForProduction()
             : static::createInscriptionForIntegration();
@@ -139,6 +177,16 @@ class LaravelOneclick
 
     public static function transactionInstance(): MallTransaction
     {
+        if (static::$testingEnabled && static::$fakeTransactionService) {
+            $options = new Options(
+                Oneclick::INTEGRATION_API_KEY,
+                Oneclick::INTEGRATION_COMMERCE_CODE,
+                Options::ENVIRONMENT_INTEGRATION
+            );
+
+            return new MallTransaction($options, static::$fakeTransactionService);
+        }
+
         return config('oneclick.in_production')
             ? static::createTransactionForProduction()
             : static::createTransactionForIntegration();
