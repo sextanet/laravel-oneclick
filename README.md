@@ -117,6 +117,81 @@ LaravelOneclick::setRejectedUrl('/rejected-page');
 
 Source: [Official Transbank Developers website](https://www.transbankdevelopers.cl/documentacion/como_empezar#tarjetas-de-prueba)
 
+## Testing
+
+To test Oneclick flows without hitting the real Transbank API, call `LaravelOneclick::enableTests()`. It returns a fluent builder to queue stub responses, and always reset the fake in `afterEach`.
+
+```php
+use SextaNet\LaravelOneclick\LaravelOneclick;
+
+afterEach(fn () => LaravelOneclick::disableTests());
+```
+
+### Registering a card (approved)
+
+```php
+LaravelOneclick::enableTests()
+    ->withInscriptionStart()
+    ->withInscriptionFinishApproved();
+
+$start = LaravelOneclick::instance()
+    ->start($username, $email, $responseUrl);
+
+$finish = LaravelOneclick::instance()
+    ->finish($start->getToken());
+
+$finish->isApproved(); // true
+$finish->getTbkUser(); // 'b6bd6ba3-e718-4107-9386-d2b099a8dd42'
+$finish->getCardType(); // 'Visa'
+$finish->getCardNumber(); // 'XXXXXXXXXXXX6623'
+```
+
+You can also stub a rejected or cancelled registration:
+
+```php
+LaravelOneclick::enableTests()->withInscriptionFinishRejected();  // response_code -1
+LaravelOneclick::enableTests()->withInscriptionFinishCancelled(); // response_code -96
+```
+
+### Authorizing a payment (approved)
+
+```php
+LaravelOneclick::enableTests()->withTransactionAuthorizeApproved();
+
+$response = LaravelOneclick::pay($username, $tbkUser, $parentBuyOrder, $details);
+
+$response->isApproved();           // true
+$response->getDetails()[0]->status; // 'AUTHORIZED'
+```
+
+Stub a rejected payment:
+
+```php
+LaravelOneclick::enableTests()->withTransactionAuthorizeRejected();
+```
+
+### Overriding stub data
+
+Any stub method accepts an array of overrides merged into the response:
+
+```php
+LaravelOneclick::enableTests()->withTransactionAuthorizeApproved([
+    'details' => [['amount' => 9999]],
+]);
+```
+
+### Asserting all queued stubs were consumed
+
+```php
+$fake = LaravelOneclick::enableTests()
+    ->withInscriptionStart()
+    ->withInscriptionFinishApproved();
+
+// ... run code ...
+
+$fake->assertAllResponsesConsumed();
+```
+
 ## Integration
 
 [Official Laravel integration project](https://github.com/sextanet/laravel-oneclick-integration)
