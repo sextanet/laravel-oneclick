@@ -1,0 +1,20 @@
+{
+    "buy_order": "testapp-loca-001",
+    "card_detail": {
+        "card_number": "6623"
+    },
+    "accounting_date": "0410",
+    "transaction_date": "2026-04-10T19:27:35.797Z",
+    "details": [
+        {
+            "amount": 1000,
+            "status": "AUTHORIZED",
+            "authorization_code": "1008",
+            "payment_type_code": "VN",
+            "response_code": 0,
+            "installments_number": 0,
+            "commerce_code": "597055555542",
+            "buy_order": "order-detail-001"
+        }
+    ]
+}
